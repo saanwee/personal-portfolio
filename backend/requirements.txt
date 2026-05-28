@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+langchain
+langchain-openai
+langchain-pinecone
+pinecone
+openai
