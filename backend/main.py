@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from langchain_openai import OpenAIEmbeddings
-from langchain_pinecone import PineconeVectorStore
+from pinecone import Pinecone
 from openai import OpenAI
 
 load_dotenv()
@@ -23,14 +22,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-vectorstore = PineconeVectorStore(
-    index_name=os.environ.get("PINECONE_INDEX", "saanvi-portfolio"),
-    embedding=embeddings,
-)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 6})
-
 openai_client = OpenAI()
+pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
+index = pc.Index(os.environ.get("PINECONE_INDEX", "saanvi-portfolio"))
+
+
+def retrieve_context(query: str, k: int = 6) -> str:
+    embedding = openai_client.embeddings.create(
+        model="text-embedding-3-small",
+        input=query,
+    ).data[0].embedding
+    results = index.query(vector=embedding, top_k=k, include_metadata=True)
+    return "\n\n".join(
+        match.metadata.get("text", "") for match in results.matches
+    )
+
 
 SYSTEM_TEMPLATE = """You are a friendly AI assistant on Saanvi Arora's personal portfolio website.
 Respond naturally to greetings and small talk with a short warm reply.
@@ -70,8 +76,7 @@ async def chat(request: ChatRequest):
     if not user_query:
         raise HTTPException(status_code=400, detail="No user message found")
 
-    relevant_docs = retriever.invoke(user_query)
-    context = "\n\n".join(doc.page_content for doc in relevant_docs)
+    context = retrieve_context(user_query)
 
     messages = [{"role": "system", "content": SYSTEM_TEMPLATE.format(context=context)}]
     for m in request.messages:
