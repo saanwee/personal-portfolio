@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+/* =========================================================
+   THEME TOKENS (DESIGN SYSTEM)
+   ========================================================= */
+:root {
+  /* Core palette - Deep aubergine & dusty rose */
+  --background: 276 25% 12%;
+  --foreground: 340 20% 92%;
+
+  --card: 276 22% 16%;
+  --card-foreground: 340 20% 92%;
+
+  --popover: 276 22% 14%;
+  --popover-foreground: 340 20% 92%;
+
+  --primary: 310 22% 52%;
+  --primary-foreground: 276 25% 8%;
+
+  --secondary: 276 20% 22%;
+  --secondary-foreground: 340 20% 88%;
+
+  --muted: 276 18% 20%;
+  --muted-foreground: 340 15% 60%;
+
+  --accent: 352 35% 68%;
+  --accent-foreground: 276 25% 10%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 276 20% 25%;
+  --input: 276 20% 25%;
+  --ring: 310 22% 52%;
+
+  --radius: 0.5rem;
+
+  /* Custom accent colors for skills */
+  --skill-languages: 180 60% 45%;
+  --skill-tools: 280 60% 55%;
+  --skill-software: 35 80% 55%;
+  --skill-databases: 140 50% 45%;
+
+  /* Hover accents */
+  --hover-rose: 352 40% 62%;
+  --hover-mauve: 355 25% 55%;
+  --hover-blush: 355 30% 65%;
+
+  /* Blue accent tones - complementary */
+  --accent-blue: 220 50% 40%;
+  --accent-blue-light: 210 50% 65%;
+  --accent-indigo: 240 40% 50%;
+  --accent-blue-dark: 220 25% 12%;
+
+  /* Terminal green for typing effect */
+  --terminal-cursor: 310 22% 52%;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(
+    135deg,
+    hsl(276 25% 12%) 0%,
+    hsl(276 22% 18%) 100%
+  );
+
+  --gradient-card: linear-gradient(
+    145deg,
+    hsl(276 22% 18%) 0%,
+    hsl(276 22% 14%) 100%
+  );
+
+  --gradient-accent: linear-gradient(
+    135deg,
+    hsl(310 22% 52%) 0%,
+    hsl(352 35% 68%) 100%
+  );
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px hsl(276 25% 5% / 0.3);
+  --shadow-md: 0 4px 20px hsl(276 25% 5% / 0.4);
+  --shadow-lg: 0 8px 40px hsl(276 25% 5% / 0.5);
+  --shadow-glow: 0 0 30px hsl(310 22% 52% / 0.2);
+
+  /* Sidebar */
+  --sidebar-background: 276 22% 14%;
+  --sidebar-foreground: 340 20% 88%;
+  --sidebar-primary: 310 22% 52%;
+  --sidebar-primary-foreground: 276 25% 8%;
+  --sidebar-accent: 276 20% 22%;
+  --sidebar-accent-foreground: 340 20% 88%;
+  --sidebar-border: 276 20% 25%;
+  --sidebar-ring: 310 22% 52%;
+}
+
+/* =========================================================
+   BASE STYLES
+   ========================================================= */
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* optional: good default for Next.js */
+html,
+body {
+  height: 100%;
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* =========================================================
+   COMPONENT CLASSES
+   ========================================================= */
+
+/* ---------- Navbar links ---------- */
+.nav-link {
+  @apply relative px-4 py-2 text-sm font-medium text-white transition-all duration-300;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 2px;
+  width: 0;
+  transform: translateX(-50%);
+  transition: all 300ms;
+  background-color: hsl(var(--accent-blue-light));
+}
+
+.nav-link:hover {
+  color: hsl(var(--accent-blue-light));
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: hsl(var(--accent-blue-light));
+}
+
+/* ---------- Terminal prompt ---------- */
+.terminal-prompt {
+  color: hsl(var(--primary));
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* ---------- Typing cursor ---------- */
+.typing-cursor {
+  @apply inline-block w-1 h-7 sm:h-11 ml-1 bg-white;
+  background: white;
+  animation: blink 1s step-end infinite;
+}
+
+/* ---------- Skill badges ---------- */
+.skill-badge {
+  @apply px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105;
+}
+
+.skill-languages {
+  background: hsl(180 60% 45% / 0.15);
+  color: hsl(180 60% 65%);
+  border: 1px solid hsl(180 60% 45% / 0.3);
+}
+
+.skill-tools {
+  background: hsl(280 60% 55% / 0.15);
+  color: hsl(280 60% 75%);
+  border: 1px solid hsl(280 60% 55% / 0.3);
+}
+
+.skill-software {
+  background: hsl(35 80% 55% / 0.15);
+  color: hsl(35 80% 70%);
+  border: 1px solid hsl(35 80% 55% / 0.3);
+}
+
+.skill-databases {
+  background: hsl(140 50% 45% / 0.15);
+  color: hsl(140 50% 65%);
+  border: 1px solid hsl(140 50% 45% / 0.3);
+}
+
+.skill-frameworks {
+  background: hsl(220 45% 55% / 0.15);
+  color: hsl(210 50% 70%);
+  border: 1px solid hsl(220 45% 55% / 0.3);
+}
+
+/* ---------- Timeline hover line ---------- */
+.timeline-line {
+  @apply absolute left-0 top-0 bottom-0 w-0.5 transition-colors duration-300;
+  background: hsl(var(--border));
+}
+
+.timeline-line-hover:hover .timeline-line {
+  background: hsl(var(--primary));
+}
+
+/* ---------- Glass card ---------- */
+.glass-card {
+  @apply rounded-xl backdrop-blur-sm;
+  background: hsl(var(--card) / 0.8);
+  border: 1px solid hsl(var(--border) / 0.5);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------- Gradient text ---------- */
+.gradient-text {
+  @apply bg-clip-text text-transparent;
+  background-image: var(--gradient-accent);
+}
+
+/* ---------- Glow effect ---------- */
+.glow-effect {
+  box-shadow: var(--shadow-glow);
+}
+
+/* =========================================================
+   ANIMATIONS + UTILITIES
+   ========================================================= */
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+/* Delay utilities */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+.delay-200 {
+  animation-delay: 0.2s;
+}
+.delay-300 {
+  animation-delay: 0.3s;
+}
+.delay-400 {
+  animation-delay: 0.4s;
+}
+.delay-500 {
+  animation-delay: 0.5s;
+}
