@@ -11,9 +11,14 @@ load_dotenv()
 
 app = FastAPI()
 
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    os.environ.get("FRONTEND_URL", ""),
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[o for o in ALLOWED_ORIGINS if o],
     allow_methods=["POST"],
     allow_headers=["*"],
 )

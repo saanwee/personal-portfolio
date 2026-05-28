@@ -4,6 +4,6 @@ python-dotenv
 pydantic
 langchain
 langchain-openai
-langchain-pinecone
-pinecone
+langchain-pinecone>=0.2.0
+pinecone>=4.0.0
 openai
